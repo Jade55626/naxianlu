@@ -1,0 +1,138 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Noto Serif TC", "Microsoft JhengHei", serif;
+  background: #f4efe5;
+  color: #3d3026;
+}
+
+header {
+  text-align: center;
+  padding: 35px 20px 25px;
+  background: #5b4636;
+  color: #f8f1df;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 32px;
+  letter-spacing: 6px;
+}
+
+header p {
+  margin: 8px 0 0;
+  opacity: 0.85;
+}
+
+main {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 0 15px;
+}
+
+.card {
+  background: #fffaf0;
+  border: 1px solid #d8c8ae;
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 18px;
+  box-shadow: 0 3px 10px rgba(80, 60, 40, 0.08);
+}
+
+.card h2 {
+  margin-top: 0;
+  color: #634936;
+  font-size: 20px;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+}
+
+.stats div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.stats strong {
+  font-size: 25px;
+  color: #8a5a3b;
+}
+
+.stats span {
+  font-size: 13px;
+}
+
+label {
+  display: block;
+  margin: 15px 0;
+  font-weight: bold;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 11px;
+  margin-top: 7px;
+  border: 1px solid #cdbda5;
+  border-radius: 8px;
+  background: #fffdf8;
+  font-size: 16px;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.checkbox input {
+  width: auto;
+  margin: 0;
+}
+
+button {
+  width: 100%;
+  padding: 13px;
+  border: none;
+  border-radius: 9px;
+  background: #76533d;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+.danger {
+  margin-top: 15px;
+  background: #8b6f61;
+}
+
+.empty {
+  text-align: center;
+  color: #9a8b7c;
+  padding: 20px 0;
+}
+
+.record {
+  padding: 12px 0;
+  border-bottom: 1px solid #dfd3c2;
+}
+
+.record:last-child {
+  border-bottom: none;
+}
+
+.record strong {
+  color: #70482f;
+}
