@@ -5,8 +5,8 @@ function saveRecords() {
 }
 
 function addRecord() {
+  const pool = document.getElementById("pool").value;
   const character = document.getElementById("character").value.trim();
-  const rarity = document.getElementById("rarity").value;
   const draws = Number(document.getElementById("draws").value);
   const isUp = document.getElementById("isUp").checked;
 
@@ -16,8 +16,8 @@ function addRecord() {
   }
 
   records.push({
+    pool: pool,
     character: character,
-    rarity: rarity,
     draws: draws,
     isUp: isUp,
     date: new Date().toLocaleDateString("zh-TW")
@@ -25,6 +25,7 @@ function addRecord() {
 
   saveRecords();
   renderRecords();
+  renderPoolStats();
 
   document.getElementById("character").value = "";
   document.getElementById("draws").value = "";
@@ -47,7 +48,7 @@ function renderRecords() {
         <strong>${record.character}</strong>
         ${record.isUp ? " ✦ UP" : ""}
         <br>
-        ${record.rarity === "rare" ? "稀有" : "普通"}
+        <span class="pool-badge">${record.pool}</span>
         ・${record.draws} 抽
         <br>
         <small>${record.date}</small>
@@ -65,11 +66,9 @@ function updateStats() {
     0
   );
 
-  const rareRecords = records.filter(
-    record => record.rarity === "rare"
-  );
-
-  const rareCount = rareRecords.length;
+  const rareCount = records.filter(
+    record => record.isUp
+  ).length;
 
   const average =
     rareCount > 0
@@ -81,6 +80,51 @@ function updateStats() {
   document.getElementById("averageDraws").textContent = average;
 }
 
+function renderPoolStats() {
+  const poolStatsBox = document.getElementById("poolStats");
+
+  if (records.length === 0) {
+    poolStatsBox.innerHTML =
+      '<p class="empty">目前還沒有抽卡紀錄。</p>';
+    return;
+  }
+
+  // 按卡池分組統計
+  const poolGroups = {};
+  records.forEach(record => {
+    if (!poolGroups[record.pool]) {
+      poolGroups[record.pool] = {
+        totalDraws: 0,
+        upCount: 0,
+        records: []
+      };
+    }
+    poolGroups[record.pool].totalDraws += record.draws;
+    if (record.isUp) {
+      poolGroups[record.pool].upCount += 1;
+    }
+    poolGroups[record.pool].records.push(record);
+  });
+
+  poolStatsBox.innerHTML = Object.entries(poolGroups)
+    .map(([pool, stats]) => {
+      const average = stats.upCount > 0 
+        ? (stats.totalDraws / stats.upCount).toFixed(1) 
+        : "N/A";
+      return `
+        <div class="pool-stat">
+          <h3>${pool}</h3>
+          <div class="stat-row">
+            <span>總抽數：<strong>${stats.totalDraws}</strong></span>
+            <span>出金數：<strong>${stats.upCount}</strong></span>
+            <span>平均：<strong>${average}</strong></span>
+          </div>
+        </div>
+      `;
+    })
+    .join("");
+}
+
 function clearRecords() {
   if (records.length === 0) return;
 
@@ -90,7 +134,9 @@ function clearRecords() {
     records = [];
     saveRecords();
     renderRecords();
+    renderPoolStats();
   }
 }
 
 renderRecords();
+renderPoolStats();
